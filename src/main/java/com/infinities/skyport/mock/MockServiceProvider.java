@@ -13,15 +13,37 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  *******************************************************************************/
-package com.infinities.skyport;
+package com.infinities.skyport.mock;
 
+import org.apache.commons.lang3.concurrent.ConcurrentException;
 import org.dasein.cloud.mock.MockCloud;
 
+import com.infinities.skyport.ServiceProvider;
+import com.infinities.skyport.compute.SkyportComputeServices;
+import com.infinities.skyport.mock.compute.SkyportMockComputeServices;
+
 public class MockServiceProvider extends MockCloud implements ServiceProvider {
+
+	private SkyportMockComputeServices computeServices;
+
+
+	public MockServiceProvider() {
+		super();
+		this.computeServices = new SkyportMockComputeServices(this);
+	}
 
 	@Override
 	public void initialize() {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.infinities.skyport.ServiceProvider#getSkyportComputeServices()
+	 */
+	@Override
+	public SkyportComputeServices getSkyportComputeServices() throws ConcurrentException {
+		return computeServices;
+	}
 }
