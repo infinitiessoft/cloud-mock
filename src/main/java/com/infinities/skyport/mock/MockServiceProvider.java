@@ -17,19 +17,27 @@ package com.infinities.skyport.mock;
 
 import org.apache.commons.lang3.concurrent.ConcurrentException;
 import org.dasein.cloud.mock.MockCloud;
+import org.dasein.cloud.mock.network.MockNetworkServices;
 
 import com.infinities.skyport.ServiceProvider;
 import com.infinities.skyport.compute.SkyportComputeServices;
+import com.infinities.skyport.dc.SkyportDataCenterServices;
 import com.infinities.skyport.mock.compute.SkyportMockComputeServices;
+import com.infinities.skyport.mock.dc.SkyportMockDataCenterServices;
+import com.infinities.skyport.network.SkyportNetworkServices;
 
 public class MockServiceProvider extends MockCloud implements ServiceProvider {
 
 	private SkyportMockComputeServices computeServices;
+	private SkyportMockDataCenterServices dataCenterServices;
+	private MockNetworkServices networkServices;
 
 
 	public MockServiceProvider() {
 		super();
 		this.computeServices = new SkyportMockComputeServices(this);
+		this.dataCenterServices = new SkyportMockDataCenterServices();
+		this.networkServices = new MockNetworkServices(this);
 	}
 
 	@Override
@@ -45,5 +53,26 @@ public class MockServiceProvider extends MockCloud implements ServiceProvider {
 	@Override
 	public SkyportComputeServices getSkyportComputeServices() throws ConcurrentException {
 		return computeServices;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.infinities.skyport.ServiceProvider#getSkyportDataCenterServices()
+	 */
+	@Override
+	public SkyportDataCenterServices getSkyportDataCenterServices() throws ConcurrentException {
+		return dataCenterServices;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.infinities.skyport.ServiceProvider#getSkyportNetworkServices()
+	 */
+	@Override
+	public SkyportNetworkServices getSkyportNetworkServices() throws ConcurrentException {
+		return networkServices;
 	}
 }
