@@ -27,6 +27,9 @@ import org.dasein.cloud.network.AbstractNetworkServices;
 import org.dasein.cloud.network.FirewallSupport;
 import org.dasein.cloud.network.IpAddressSupport;
 
+import com.infinities.skyport.network.SkyportNetworkServices;
+import com.infinities.skyport.network.SkyportVLANSupport;
+
 /**
  * Implements mock network services for Dasein Cloud support.
  * <p>
@@ -37,7 +40,7 @@ import org.dasein.cloud.network.IpAddressSupport;
  * @version 2012.09 initial version
  * @since 2012.09
  */
-public class MockNetworkServices extends AbstractNetworkServices<CloudProvider> {
+public class MockNetworkServices extends AbstractNetworkServices<CloudProvider> implements SkyportNetworkServices {
 
 	private CloudProvider provider;
 
@@ -55,5 +58,18 @@ public class MockNetworkServices extends AbstractNetworkServices<CloudProvider> 
 	@Override
 	public @Nonnull IpAddressSupport getIpAddressSupport() {
 		return new MockIPSupport(provider);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.infinities.skyport.network.SkyportNetworkServices#getSkyportVlanSupport
+	 * ()
+	 */
+	@Override
+	public SkyportVLANSupport getSkyportVlanSupport() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
