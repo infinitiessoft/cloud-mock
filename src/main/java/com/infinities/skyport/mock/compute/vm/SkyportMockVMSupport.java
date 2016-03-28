@@ -132,7 +132,7 @@ public class SkyportMockVMSupport implements SkyportVirtualMachineSupport {
 		SkyportRawAddress[] priv = new SkyportRawAddress[vm.getPrivateAddresses().length];
 		int privKey = 0;
 		for (RawAddress address : vm.getPrivateAddresses()) {
-			SkyportRawAddress p = new SkyportRawAddress(address.getIpAddress(), address.getVersion(), "private");
+			SkyportRawAddress p = new SkyportRawAddress(address.getIpAddress(), address.getVersion(), "private", null);
 			priv[privKey++] = p;
 		}
 		ret.setPrivateAddresses(priv);
@@ -158,7 +158,7 @@ public class SkyportMockVMSupport implements SkyportVirtualMachineSupport {
 		SkyportRawAddress[] pub = new SkyportRawAddress[vm.getPublicAddresses().length];
 		int pubKey = 0;
 		for (RawAddress address : vm.getPublicAddresses()) {
-			SkyportRawAddress p = new SkyportRawAddress(address.getIpAddress(), address.getVersion(), "private");
+			SkyportRawAddress p = new SkyportRawAddress(address.getIpAddress(), address.getVersion(), "private", null);
 			pub[pubKey++] = p;
 		}
 		ret.setPublicAddresses(pub);
@@ -1141,6 +1141,22 @@ public class SkyportMockVMSupport implements SkyportVirtualMachineSupport {
 	@Override
 	public void removeTags(String[] vmIds, Tag... tags) throws CloudException, InternalException {
 		inner.removeTags(vmIds, tags);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.infinities.skyport.compute.SkyportVirtualMachineSupport#
+	 * getNovaStyleVirtualMachine(java.lang.String)
+	 */
+	@Override
+	public NovaStyleVirtualMachine getNovaStyleVirtualMachine(String vmId) throws InternalException, CloudException {
+		for (NovaStyleVirtualMachine vm : listNovaStyleVirtualMachines()) {
+			if (vmId.equals(vm.getProviderVirtualMachineId())) {
+				return vm;
+			}
+		}
+		return null;
 	}
 
 }
